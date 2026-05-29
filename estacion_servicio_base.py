@@ -7,6 +7,7 @@ Modelo base:
   · Abandono: tolerancia = UMBRAL + Exp(pendiente)
   · Empleado inexperto: tiempo de pago × 2 (primeras 2 semanas)
   · 30 corridas independientes con IC 95% por escenario
+  aaaaaaa
 """
 
 import simpy
