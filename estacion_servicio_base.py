@@ -182,7 +182,6 @@ def proceso_vehiculo(env, v: Vehiculo, islas, playeros, R: dict):
     t_sis = env.now - t0
     R["t_sistema"].append(t_sis)
     R["atendidos"]    += 1
-    R["ev_atendidos"] += int(v.es_ev)
     if espera <= OBJETIVO_ESPERA:
         R["dentro_obj"] += 1
 
@@ -270,7 +269,6 @@ def una_corrida(demanda: float, hay_inexperto: bool = False, seed: int = None) -
         "generados"  : 0,
         "atendidos"  : 0,
         "abandonos"  : 0,
-        "ev_atendidos": 0,
         "dentro_obj" : 0,
         "esperas"    : [],
         "t_sistema"  : [],
@@ -311,7 +309,7 @@ def correr_escenario(nombre: str, demanda: float,
                      n: int = NUM_CORRIDAS) -> dict:
     """Corre n réplicas y muestra la tabla de resultados con IC 95%."""
 
-    keys = ["gen","ate","aba","ev","esp","sis","niv","tab","cola","uisl","uplay"]
+    keys = ["gen","ate","aba","esp","sis","niv","tab","cola","uisl","uplay"]
     acum = {k: [] for k in keys}
 
     for seed in range(n):
@@ -320,7 +318,6 @@ def correr_escenario(nombre: str, demanda: float,
         acum["gen"].append(R["generados"])
         acum["ate"].append(R["atendidos"])
         acum["aba"].append(R["abandonos"])
-        acum["ev"].append(R["ev_atendidos"])
         acum["esp"].append(np.mean(R["esperas"])   if R["esperas"]    else 0.0)
         acum["sis"].append(np.mean(R["t_sistema"]) if R["t_sistema"]  else 0.0)
         acum["niv"].append(
@@ -350,7 +347,6 @@ def correr_escenario(nombre: str, demanda: float,
     fila("Vehículos generados",         "gen",  "7.1f")
     fila("Vehículos atendidos",         "ate",  "7.1f")
     fila("Abandonos",                   "aba",  "7.1f")
-    fila("EV atendidos",                "ev",   "7.1f")
     print(f"  {SEP}")
     fila("Espera promedio en cola",     "esp",  "7.3f", " min")
     fila("Tiempo promedio en sistema",  "sis",  "7.3f", " min")
